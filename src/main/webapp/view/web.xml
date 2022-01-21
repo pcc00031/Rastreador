@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <!--Enable JSF verbose error messages-->
+        <param-value>Development</param-value>
+        <!-- Other values: Production, SystemTest, UnitTest -->
+    </context-param>
+
+    <mime-mapping>
+        <extension>eot</extension>
+        <mime-type>application/vnd.ms-fontobject</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>otf</extension>
+        <mime-type>font/opentype</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>ttf</extension>
+        <mime-type>application/x-font-ttf</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff</extension>
+        <mime-type>application/x-font-woff</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+
+
+    <!-- Session configuration -->
+
+    <session-config>
+        <session-timeout> 30 </session-timeout> <!-- tiempo de inactividad -->
+        <cookie-config>
+            <http-only>true</http-only> <!-- evita acceso desde javascript -->
+            <secure>false</secure> <!-- true para forzar enviar por conexión segura TLS-->
+        </cookie-config>
+        <tracking-mode>COOKIE</tracking-mode> <!-- desactiva id de sesión en urls -->
+    </session-config>
+    <mime-mapping>
+        <extension>png</extension>
+        <mime-type>image/png</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>xhtml</extension>
+        <mime-type>text/xhtml+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>jsp <!--{or the extension of file}--></extension>
+        <mime-type>text/html</mime-type>
+    </mime-mapping>
+<!--    <servlet>-->
+<!--        <servlet-name>Faces Servlet</servlet-name>-->
+<!--        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>-->
+<!--        <load-on-startup>1</load-on-startup>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>Faces Servlet</servlet-name>-->
+<!--        <url-pattern>/faces/*</url-pattern>-->
+<!--        <url-pattern>*.jsf</url-pattern>-->
+<!--        <url-pattern>*.xhtml</url-pattern>-->
+<!--        <url-pattern>*.faces</url-pattern>-->
+<!--    </servlet-mapping>-->
+
+    <welcome-file-list>
+        <welcome-file>index.jsf</welcome-file>
+    </welcome-file-list>
+
+    <!-- Creation of Datasource in Application Server -->
+    <data-source>
+        <name>java:global/jdbc/libros</name> <!-- JNDI resource -->
+        <class-name>org.h2.jdbcx.JdbcDataSource</class-name> <!-- Driver -->
+        <url>jdbc:h2:~/h2db/vidtracker;AUTO_SERVER=TRUE</url> <!--DB in user folder -->
+<!--        <user>dawuser</user>-->
+<!--        <password>dawuser</password>-->
+<!--        <initial-pool-size>2</initial-pool-size>-->
+<!--        <max-pool-size>10</max-pool-size>-->
+<!--        <min-pool-size>5</min-pool-size>-->
+    </data-source>
+
+    <!-- Roles de usuarios que se van a utilizar en las reglas -->
+
+    <security-role>
+        <role-name>USUARIOS</role-name>
+    </security-role>
+    <security-role>
+        <role-name>RASTREADORES</role-name>
+    </security-role>
+
+    <!-- Reglas de control de acceso: security-constraint, puede haber varias -->
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Administradores identificados</web-resource-name>
+            <url-pattern>/rastreadores/</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>RASTREADORES</role-name>
+        </auth-constraint>
+        <!--        <user-data-constraint>  OP. acceso seguro SSL/TLS
+                    <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+                </user-data-constraint>-->
+    </security-constraint>
+
+</web-app>
